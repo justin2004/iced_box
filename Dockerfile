@@ -19,3 +19,5 @@ RUN apt-get install -y npm
 CMD /root/vim-iced/bin/iced repl
 
 # docker run --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt -it justin2004/iced_box
+
+# TODO run as the current user

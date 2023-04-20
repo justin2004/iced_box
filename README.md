@@ -12,7 +12,9 @@ so you can quickly start using a clojure REPL on a project without needing to in
 
 - put this in your bashrc
 
-> alias icedbox='docker run --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt -it justin2004/iced_box'
+```
+alias icedbox='docker run --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt -it justin2004/iced_box'
+```
 
 - `make`
 - cd to a directory with a clojure project

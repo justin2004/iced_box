@@ -20,4 +20,5 @@ alias icedbox='docker run --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt
 - cd to a directory with a clojure project
 - `icedbox`
 - then, with vim in that directory, connect with vim-iced   e.g. `:IcedConnect`
+  - you do need the client side of vim-iced installed for that to work
 

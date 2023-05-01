@@ -1,23 +1,33 @@
 FROM debian:11
-RUN apt-get update && apt-get install -y leiningen git clojure
-RUN apt-get install -y curl
+RUN apt-get update && apt-get install -y leiningen git clojure openjdk-11-jdk npm curl
+#                                                                             ^ for shadow cljs
 #                                                      ^ needed for clojure CLI projects (deps.edn files i think)
 WORKDIR /root
+USER root
+
+ARG uid=1000
+ARG gid=1000
+ARG user=containeruser
+RUN groupadd -g $gid $user || true
+RUN useradd $user --uid $uid --gid $gid --home-dir /home/$user && \
+    mkdir /home/$user && \
+    chown $uid:$gid /home/$user
 
 # this gets 'clj'
 RUN curl -O https://download.clojure.org/install/linux-install-1.11.1.1200.sh && \
     chmod +x linux-install-1.11.1.1200.sh && \
     ./linux-install-1.11.1.1200.sh
 
-RUN apt-get install -y openjdk-11-jdk
+USER $user
+WORKDIR /home/$user
 
 RUN git clone --depth=1 https://github.com/liquidz/vim-iced.git
-WORKDIR /mnt
-RUN apt-get install -y npm
-#                     ^ for shadow cljs
+
+
 # CMD /root/vim-iced/bin/iced repl --with-cljs
-CMD /root/vim-iced/bin/iced repl
+# CMD /root/vim-iced/bin/iced repl
+WORKDIR /mnt
+CMD /home/containeruser/vim-iced/bin/iced repl # TODO i had to bake 'containeruser' in here
 
-# docker run --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt -it justin2004/iced_box
-
-# TODO run as the current user
+# docker build --build-arg=uid=`id -u` --build-arg=gid=`id -g` -t justin2004/iced_box .
+# docker run --user=`id -u`:`id -u` --net=host --rm -v iced_box_m2:/root/.m2 -v `pwd`:/mnt -it justin2004/iced_box

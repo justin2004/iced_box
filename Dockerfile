@@ -1,5 +1,5 @@
-FROM debian:11
-RUN apt-get update && apt-get install -y leiningen git clojure openjdk-11-jdk npm curl
+FROM debian:12
+RUN apt-get update && apt-get install -y leiningen git clojure openjdk-17-jdk npm curl
 #                                                                             ^ for shadow cljs
 #                                                      ^ needed for clojure CLI projects (deps.edn files i think)
 WORKDIR /root

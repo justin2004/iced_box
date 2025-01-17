@@ -1,12 +1,14 @@
-FROM debian:12
-RUN apt-get update && apt-get install -y leiningen git clojure openjdk-17-jdk npm curl
+# FROM debian:12
+# FROM ubuntu:24.04
+FROM ubuntu:25.04
+RUN apt-get update && apt-get install -y leiningen git clojure openjdk-23-jdk npm curl
 #                                                                             ^ for shadow cljs
 #                                                      ^ needed for clojure CLI projects (deps.edn files i think)
 WORKDIR /root
 USER root
 
-ARG uid=1000
-ARG gid=1000
+ARG uid=501
+ARG gid=20
 ARG user=containeruser
 RUN groupadd -g $gid $user || true
 RUN useradd $user --uid $uid --gid $gid --home-dir /home/$user && \
@@ -14,9 +16,9 @@ RUN useradd $user --uid $uid --gid $gid --home-dir /home/$user && \
     chown $uid:$gid /home/$user
 
 # this gets 'clj'
-RUN curl -O https://download.clojure.org/install/linux-install-1.11.1.1200.sh && \
-    chmod +x linux-install-1.11.1.1200.sh && \
-    ./linux-install-1.11.1.1200.sh
+# RUN curl -O https://download.clojure.org/install/linux-install-1.11.1.1200.sh && \
+#     chmod +x linux-install-1.11.1.1200.sh && \
+#     ./linux-install-1.11.1.1200.sh
 
 USER $user
 WORKDIR /home/$user

@@ -20,6 +20,7 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.11.1.1200.sh &&
 
 USER $user
 WORKDIR /home/$user
+RUN mkdir -p /home/$user/.m2
 
 RUN git clone --depth=1 https://github.com/liquidz/vim-iced.git
 
